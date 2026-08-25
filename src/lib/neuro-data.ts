@@ -174,13 +174,13 @@ export function runMockAnalysis(patientId: string): AnalysisResult {
 export function severityColor(severity: ScanFinding["severity"]) {
   switch (severity) {
     case "critical":
-      return "#ff2d40";
+      return "#FF4D5E"; // brightest, most intense red
     case "high":
-      return "#ff7a4d";
+      return "#D93746";
     case "moderate":
-      return "#f5c94d";
+      return "#A02331";
     case "low":
-      return "#4ade80";
+      return "#6B1A26"; // darkest, least intense
   }
 }
 

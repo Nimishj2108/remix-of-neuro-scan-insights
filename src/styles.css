@@ -85,12 +85,12 @@
 
 :root {
   --radius: 0.25rem;
-  --coral: oklch(0.651 0.192 12.9);
-  --coral-deep: oklch(0.5 0.157 11.6);
-  --neon-red: oklch(0.534 0.196 22.4);
-  --dark-base: oklch(0.145 0 0);
-  --cream: oklch(0.861 0.054 9.5);
-  --charcoal: oklch(0.21 0.015 10);
+  --coral: oklch(0.82 0.121 215); /* neural cyan #45D6E8 */
+  --coral-deep: oklch(0.55 0.19 285); /* cortical violet #7567F8 */
+  --neon-red: oklch(0.63 0.222 19.6); /* hemorrhage red #FF4D5E */
+  --dark-base: oklch(0.175 0.025 264); /* deep cerebral navy #080D16 */
+  --cream: oklch(0.94 0.014 250); /* clinical white #E8EEF7 */
+  --charcoal: oklch(0.225 0.03 262); /* dark blue-gray #0E1624 */
 
   --background: var(--dark-base);
   --foreground: var(--cream);
@@ -103,13 +103,13 @@
   --secondary: var(--charcoal);
   --secondary-foreground: var(--cream);
   --muted: var(--charcoal);
-  --muted-foreground: oklch(0.65 0.03 10);
+  --muted-foreground: oklch(0.65 0.022 255); /* cool gray #8996A8 */
   --accent: var(--coral);
   --accent-foreground: var(--dark-base);
   --destructive: var(--neon-red);
   --destructive-foreground: var(--cream);
-  --border: oklch(0.651 0.192 12.9 / 25%);
-  --input: oklch(0.651 0.192 12.9 / 35%);
+  --border: oklch(0.82 0.121 215 / 25%);
+  --input: oklch(0.82 0.121 215 / 35%);
   --ring: var(--coral);
 }
 
