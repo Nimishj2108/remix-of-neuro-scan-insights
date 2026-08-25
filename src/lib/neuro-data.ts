@@ -15,6 +15,8 @@ export interface ScanFinding {
   /** 0-100 coords on the axial slice viewer */
   x: number;
   y: number;
+  /** 0-100 depth through the scan volume (for 3D placement) */
+  z: number;
 }
 
 export interface AnalysisResult {
@@ -141,6 +143,7 @@ export function runMockAnalysis(patientId: string): AnalysisResult {
     size_mm: Math.round((4 + rand() * 32) * 10) / 10,
     x: 22 + rand() * 56,
     y: 20 + rand() * 56,
+    z: 18 + rand() * 64,
   }));
 
   const SEVERITY_ORDER: ScanFinding["severity"][] = [
