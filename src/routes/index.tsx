@@ -16,17 +16,17 @@ const BrainScene = lazy(() => import("@/components/neuro/BrainScene"));
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "NeuroScan — AI Brain MRI Analysis" },
+      { title: "NeuroScan — AI Brain CT Analysis" },
       {
         name: "description",
         content:
-          "NeuroScan analyzes brain MRI scans with deep learning: 3D tumor segmentation, pathology detection, and an interactive neural-web visualization.",
+          "NeuroScan analyzes brain CT scans with deep learning: 3D tumor segmentation, pathology detection, and an interactive neural-web visualization.",
       },
-      { property: "og:title", content: "NeuroScan — AI Brain MRI Analysis" },
+      { property: "og:title", content: "NeuroScan — AI Brain CT Analysis" },
       {
         property: "og:description",
         content:
-          "Deep-learning brain MRI analysis with 3D tumor segmentation and an interactive neural-web viewer.",
+          "Deep-learning brain CT analysis with 3D tumor segmentation and an interactive neural-web viewer.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -39,7 +39,7 @@ const features = [
   {
     icon: Cpu,
     title: "nnU-Net + 3D-ResNet",
-    desc: "Deep learning pipeline trained on thousands of MRI volumes for tumor segmentation.",
+    desc: "Deep learning pipeline trained on thousands of CT volumes for tumor segmentation.",
   },
   {
     icon: Activity,
@@ -161,7 +161,7 @@ function Index() {
             transition={{ delay: 0.4, duration: 0.6 }}
             className="font-mono text-lg md:text-2xl text-cream mt-4 max-w-xl"
           >
-            Advanced Brain Tumor Detection from MRI
+            Advanced Brain Tumor Detection from CT
           </motion.p>
 
           <motion.div

@@ -297,7 +297,13 @@ function ScannerPage() {
                 {/* Findings list */}
                 <div className="space-y-2">
                   {analysisResult.findings.map((f) => (
-                    <div key={f.id} className="pixel-border-sm p-3">
+                    <div
+                      key={f.id}
+                      onClick={() => setSelectedFindingId(f.id)}
+                      className={`pixel-border-sm p-3 cursor-pointer transition-colors ${
+                        selectedFindingId === f.id ? "bg-coral/10" : ""
+                      }`}
+                    >
                       <div className="flex items-center justify-between mb-1">
                         <span
                           className="font-pixel text-[8px]"
@@ -351,7 +357,7 @@ function ScannerPage() {
                   className="mx-auto text-coral/40 mb-3 animate-pulse-slow"
                 />
                 <p className="font-mono text-sm text-cream/50">
-                  Select a patient study or upload an MRI series, then run the
+                  Select a patient study or upload a CT series, then run the
                   analysis.
                 </p>
               </div>
@@ -424,7 +430,7 @@ function ScannerPage() {
                           {uploadedFile.name}
                         </span>
                       ) : (
-                        "Click to upload MRI scan (DICOM, NIfTI, PNG)"
+                        "Click to upload CT scan (DICOM, NIfTI, PNG)"
                       )}
                     </button>
                   </div>
