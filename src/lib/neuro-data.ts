@@ -180,3 +180,53 @@ export function severityColor(severity: ScanFinding["severity"]) {
       return "#4ade80";
   }
 }
+
+export interface Citation {
+  title: string;
+  description: string;
+  details: string;
+  link: string;
+}
+
+export const CITATIONS: Citation[] = [
+  {
+    title: "The Multimodal Brain Tumor Image Segmentation Benchmark (BRATS)",
+    description:
+      "The foundational benchmark dataset for brain tumor segmentation from multi-modal MRI, used to train and validate NeuroScan's models.",
+    details:
+      "Menze et al., IEEE Transactions on Medical Imaging, 2015. BraTS provides expert-annotated glioma MRIs with segmentations for edema, enhancing tumor, and necrotic core.",
+    link: "https://www.med.upenn.edu/sbia/brats2018.html",
+  },
+  {
+    title: "nnU-Net: A Self-Configuring Method for Deep Learning-Based Biomedical Image Segmentation",
+    description:
+      "The self-configuring U-Net framework that underpins NeuroScan's 3D tumor segmentation stage.",
+    details:
+      "Isensee et al., Nature Methods, 2021. nnU-Net automatically adapts preprocessing, architecture, and training to new biomedical datasets, and has won multiple medical segmentation challenges.",
+    link: "https://www.nature.com/articles/s41592-020-01008-z",
+  },
+  {
+    title: "Deep Residual Learning for Image Recognition",
+    description:
+      "The ResNet architecture extended to 3D for NeuroScan's tumor severity classification stage.",
+    details:
+      "He et al., CVPR 2016. Residual connections enable training of very deep networks; NeuroScan uses a 3D variant operating on segmented tumor volumes.",
+    link: "https://arxiv.org/abs/1512.03385",
+  },
+  {
+    title: "CBTRUS Statistical Report: Primary Brain and Other CNS Tumors",
+    description:
+      "Epidemiological reference for the clinical context and prevalence figures used across the app.",
+    details:
+      "Ostrom et al., Neuro-Oncology. The Central Brain Tumor Registry of the United States provides comprehensive incidence and survival statistics for brain and CNS tumors.",
+    link: "https://academic.oup.com/neuro-oncology",
+  },
+  {
+    title: "HackCanada 2025",
+    description:
+      "NeuroScan was designed and built at HackCanada 2025 as an exploration of accessible medical AI interfaces.",
+    details:
+      "A 24-hour hackathon project combining PyTorch inference, FastAPI, and an interactive web viewer for MRI analysis.",
+    link: "https://github.com/Nimishj2108/NeuroScan",
+  },
+];
