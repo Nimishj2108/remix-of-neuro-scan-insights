@@ -12,8 +12,8 @@ import * as THREE from "three";
 
 const PULSE_PERIOD = 4.0;
 const PULSE_AMP = 0.03;
-const CORAL = "#58789F";
-const CORAL_DIM = "#3E5A7C";
+const CORAL = "#2E4A66";
+const CORAL_DIM = "#24405C";
 const NEON = "#45D6E8";
 
 export type BrainPhase = "exterior" | "diving" | "interior" | "surfacing";
@@ -96,7 +96,7 @@ function Hemisphere({
         <meshPhysicalMaterial
           color={CORAL}
           transparent
-          opacity={0.26}
+          opacity={0.16}
           side={THREE.DoubleSide}
           depthWrite={false}
           roughness={0.6}
@@ -225,7 +225,7 @@ function InteriorNeurons({ count = 420 }: { count?: number }) {
           color={CORAL}
           size={0.05}
           transparent
-          opacity={0.9}
+          opacity={0.5}
           sizeAttenuation
           depthWrite={false}
           blending={THREE.AdditiveBlending}
