@@ -28,7 +28,7 @@ export default function BrainSliceViewer({
             <stop offset="100%" stopColor="#120a0d" />
           </radialGradient>
           <radialGradient id="ventricle" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#0a0a0a" />
+            <stop offset="0%" stopColor="#080D16" />
             <stop offset="100%" stopColor="#1a0f13" />
           </radialGradient>
         </defs>
@@ -43,7 +43,7 @@ export default function BrainSliceViewer({
           y1="8"
           x2="50"
           y2="92"
-          stroke="#0a0a0a"
+          stroke="#080D16"
           strokeWidth="1.2"
           opacity="0.8"
         />
@@ -78,7 +78,7 @@ export default function BrainSliceViewer({
             y1={14 + i * 12}
             x2="94"
             y2={14 + i * 12}
-            stroke="#E8506A"
+            stroke="#45D6E8"
             strokeWidth="0.15"
             opacity="0.15"
           />
@@ -127,10 +127,10 @@ export default function BrainSliceViewer({
         })}
 
         {/* Corner HUD */}
-        <text x="7" y="11" fill="#E8506A" fontSize="3" fontFamily="monospace" opacity="0.8">
+        <text x="7" y="11" fill="#45D6E8" fontSize="3" fontFamily="monospace" opacity="0.8">
           AXIAL · T1-CE
         </text>
-        <text x="93" y="11" fill="#E8506A" fontSize="3" fontFamily="monospace" textAnchor="end" opacity="0.8">
+        <text x="93" y="11" fill="#45D6E8" fontSize="3" fontFamily="monospace" textAnchor="end" opacity="0.8">
           SLICE 78/155
         </text>
       </svg>

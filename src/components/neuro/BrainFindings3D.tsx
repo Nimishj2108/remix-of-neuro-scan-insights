@@ -13,8 +13,8 @@ import { severityColor, type ScanFinding } from "@/lib/neuro-data";
  * Drag to orbit, scroll to zoom, click a marker to focus a finding.
  */
 
-const CORAL = "#F48BA0";
-const NEON = "#E8506A";
+const CORAL = "#DCE7F5";
+const NEON = "#45D6E8";
 
 /** Map a finding's 0-100 volume coords to a point on/inside the brain's
  *  bounding ellipsoid (geometry-local units). */
@@ -213,7 +213,7 @@ export default function BrainFindings3D({
         style={{ background: "transparent" }}
       >
         <ambientLight intensity={0.45} />
-        <pointLight position={[4, 4, 4]} intensity={20} color="#ffd9e0" />
+        <pointLight position={[4, 4, 4]} intensity={20} color="#DCEBFF" />
         <pointLight position={[-4, -2, -2]} intensity={12} color={NEON} />
         <Suspense fallback={null}>
           <BrainModel

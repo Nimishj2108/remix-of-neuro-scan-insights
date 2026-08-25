@@ -12,9 +12,9 @@ import * as THREE from "three";
 
 const PULSE_PERIOD = 4.0;
 const PULSE_AMP = 0.03;
-const CORAL = "#F48BA0";
-const CORAL_DIM = "#D97085";
-const NEON = "#E8506A";
+const CORAL = "#DCE7F5";
+const CORAL_DIM = "#A8BCD4";
+const NEON = "#45D6E8";
 
 export type BrainPhase = "exterior" | "diving" | "interior" | "surfacing";
 
@@ -330,7 +330,7 @@ export default function BrainScene({
         style={{ background: "transparent" }}
       >
         <ambientLight intensity={0.4} />
-        <pointLight position={[4, 4, 4]} intensity={20} color="#ffd9e0" />
+        <pointLight position={[4, 4, 4]} intensity={20} color="#DCEBFF" />
         <pointLight position={[-4, -2, -2]} intensity={12} color={NEON} />
         <CameraRig phase={phase} />
         {!decorative && phase !== "interior" && (

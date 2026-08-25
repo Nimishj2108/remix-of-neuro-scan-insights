@@ -40,7 +40,7 @@ export default function RetroLoadingBar({
             animate={{
               opacity: i < filled ? 1 : 0.15,
               scale: i < filled ? 1 : 0.8,
-              backgroundColor: i < filled ? "#E8506A" : "#2a2220",
+              backgroundColor: i < filled ? "#45D6E8" : "#16202E",
             }}
             transition={{ duration: 0.15, delay: i * 0.02 }}
             className="w-3 h-5"
