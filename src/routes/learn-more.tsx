@@ -11,13 +11,13 @@ export const Route = createFileRoute("/learn-more")({
       {
         name: "description",
         content:
-          "How NeuroScan detects brain tumors from MRI: datasets, model architecture, and clinical context behind the deep-learning pipeline.",
+          "How NeuroScan detects brain tumors from CT: datasets, model architecture, and clinical context behind the deep-learning pipeline.",
       },
       { property: "og:title", content: "Learn More — NeuroScan" },
       {
         property: "og:description",
         content:
-          "The science behind NeuroScan: BraTS datasets, nnU-Net segmentation, and clinical context for brain MRI analysis.",
+          "The science behind NeuroScan: BraTS datasets, nnU-Net segmentation, and clinical context for brain CT analysis.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -51,7 +51,7 @@ function LearnMorePage() {
         >
           <div className="space-y-5 font-mono text-sm text-cream/80 leading-relaxed">
             <p>
-              NeuroScan applies state-of-the-art deep learning to brain MRI
+              NeuroScan applies state-of-the-art deep learning to brain CT
               scans to detect, localize, and grade tumors. The pipeline combines
               an nnU-Net architecture for 3D tumor segmentation with a
               3D-ResNet classifier for severity grading — a pairing proven on

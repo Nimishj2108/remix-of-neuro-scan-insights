@@ -195,9 +195,9 @@ export const CITATIONS: Citation[] = [
   {
     title: "The Multimodal Brain Tumor Image Segmentation Benchmark (BRATS)",
     description:
-      "The foundational benchmark dataset for brain tumor segmentation from multi-modal MRI, used to train and validate NeuroScan's models.",
+      "The foundational benchmark dataset for brain tumor segmentation from multi-modal scans, used to train and validate NeuroScan's models.",
     details:
-      "Menze et al., IEEE Transactions on Medical Imaging, 2015. BraTS provides expert-annotated glioma MRIs with segmentations for edema, enhancing tumor, and necrotic core.",
+      "Menze et al., IEEE Transactions on Medical Imaging, 2015. BraTS provides expert-annotated glioma scans with segmentations for edema, enhancing tumor, and necrotic core.",
     link: "https://www.med.upenn.edu/sbia/brats2018.html",
   },
   {
@@ -229,7 +229,7 @@ export const CITATIONS: Citation[] = [
     description:
       "NeuroScan was designed and built at HackCanada 2025 as an exploration of accessible medical AI interfaces.",
     details:
-      "A 24-hour hackathon project combining PyTorch inference, FastAPI, and an interactive web viewer for MRI analysis.",
+      "A 24-hour hackathon project combining PyTorch inference, FastAPI, and an interactive web viewer for CT analysis.",
     link: "https://github.com/Nimishj2108/NeuroScan",
   },
 ];

@@ -489,7 +489,7 @@ function ScannerPage() {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-cream/50">Modality</span>
-                  <span className="text-coral font-semibold">MRI · T1-CE</span>
+                  <span className="text-coral font-semibold">CT · Contrast</span>
                 </div>
               </div>
             ) : uploadedFile ? (
@@ -519,7 +519,7 @@ function ScannerPage() {
               </h3>
               <ul className="space-y-2 font-mono text-sm text-cream/60">
                 {[
-                  "Pick a BraTS study or upload an MRI series",
+                  "Pick a BraTS study or upload a CT series",
                   "Run the analysis pipeline",
                   "Inspect findings on the axial slice",
                   "Click markers for per-finding detail",
