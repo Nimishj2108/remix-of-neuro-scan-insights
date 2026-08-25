@@ -234,9 +234,11 @@ export default function NeuralWebCanvas({
 
         for (let i = nodeStart; i < nodeEnd; i++) {
           for (let j = i + 1; j < nodeEnd; j++) {
-            const dx = nodes[i].baseX - nodes[j].baseX;
-            const dy = nodes[i].baseY - nodes[j].baseY;
-            const dz = nodes[i].baseZ - nodes[j].baseZ;
+            const ni = nodes[i]!;
+            const nj = nodes[j]!;
+            const dx = ni.baseX - nj.baseX;
+            const dy = ni.baseY - nj.baseY;
+            const dz = ni.baseZ - nj.baseZ;
             if (
               Math.sqrt(dx * dx + dy * dy + dz * dz) <
                 CFG.clusterRadius * CFG.intraRadius &&
@@ -254,7 +256,7 @@ export default function NeuralWebCanvas({
           baseCZ: cz,
           nodeStart,
           nodeEnd,
-          factText: NEURO_FACTS[factIdx % NEURO_FACTS.length],
+          factText: NEURO_FACTS[factIdx % NEURO_FACTS.length]!,
         });
         factIdx++;
       }
