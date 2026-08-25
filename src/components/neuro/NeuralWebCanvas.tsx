@@ -358,8 +358,8 @@ export default function NeuralWebCanvas({
       const clusterOnScreen = new Array<boolean>(clusters.length).fill(false);
 
       for (let i = 0; i < nodes.length; i++) {
-        const n = nodes[i];
-        const c = clusters[n.clusterIdx];
+        const n = nodes[i]!;
+        const c = clusters[n.clusterIdx]!;
         const sign = c.hemiIdx === 0 ? -1 : 1;
         const ox = (hemiMult - 1) * sign * 40;
         const p = project(
@@ -377,8 +377,10 @@ export default function NeuralWebCanvas({
         py[i] = p.sy;
         pscale[i] = p.scale;
         popacity[i] = p.opacity;
-        clusterScaleSum[n.clusterIdx] += p.scale;
-        clusterScaleCnt[n.clusterIdx] += 1;
+        clusterScaleSum[n.clusterIdx] =
+          (clusterScaleSum[n.clusterIdx] ?? 0) + p.scale;
+        clusterScaleCnt[n.clusterIdx] =
+          (clusterScaleCnt[n.clusterIdx] ?? 0) + 1;
         if (
           p.sx > -100 &&
           p.sx < cW + 100 &&
@@ -392,22 +394,22 @@ export default function NeuralWebCanvas({
       // Synapse wires
       ctx.lineWidth = CFG.wireWidth;
       for (const e of edges) {
-        const o = Math.min(popacity[e.a], popacity[e.b]) * 0.4;
+        const o = Math.min(popacity[e.a]!, popacity[e.b]!) * 0.4;
         if (o < 0.01) continue;
         ctx.beginPath();
-        ctx.moveTo(px[e.a], py[e.a]);
-        ctx.lineTo(px[e.b], py[e.b]);
+        ctx.moveTo(px[e.a]!, py[e.a]!);
+        ctx.lineTo(px[e.b]!, py[e.b]!);
         ctx.strokeStyle = rgba(CFG.pR, CFG.pG, CFG.pB, o);
         ctx.stroke();
       }
 
       // Neurons
       for (let i = 0; i < nodes.length; i++) {
-        const r = nodes[i].size * pscale[i];
+        const r = nodes[i]!.size * pscale[i]!;
         if (r < 0.1) continue;
         ctx.beginPath();
-        ctx.arc(px[i], py[i], r, 0, Math.PI * 2);
-        ctx.fillStyle = rgba(CFG.pR, CFG.pG, CFG.pB, popacity[i]);
+        ctx.arc(px[i]!, py[i]!, r, 0, Math.PI * 2);
+        ctx.fillStyle = rgba(CFG.pR, CFG.pG, CFG.pB, popacity[i]!);
         ctx.fill();
       }
 
@@ -418,10 +420,10 @@ export default function NeuralWebCanvas({
           pt.progress = 0;
           pt.edgeIdx = Math.floor(Math.random() * edges.length);
         }
-        const e = edges[pt.edgeIdx];
-        const x = px[e.a] + (px[e.b] - px[e.a]) * pt.progress;
-        const y = py[e.a] + (py[e.b] - py[e.a]) * pt.progress;
-        const s = (pscale[e.a] + pscale[e.b]) / 2;
+        const e = edges[pt.edgeIdx]!;
+        const x = px[e.a]! + (px[e.b]! - px[e.a]!) * pt.progress;
+        const y = py[e.a]! + (py[e.b]! - py[e.a]!) * pt.progress;
+        const s = (pscale[e.a]! + pscale[e.b]!) / 2;
         const r = CFG.particleSize * s * 2;
         if (r < 0.2) continue;
         ctx.beginPath();
@@ -451,10 +453,11 @@ export default function NeuralWebCanvas({
       if (!decorative) {
         let fact: string | null = null;
         for (let ci = 0; ci < clusters.length; ci++) {
-          if (!clusterOnScreen[ci] || clusterScaleCnt[ci] === 0) continue;
-          const avg = clusterScaleSum[ci] / clusterScaleCnt[ci];
+          const cnt = clusterScaleCnt[ci] ?? 0;
+          if (!clusterOnScreen[ci] || cnt === 0) continue;
+          const avg = (clusterScaleSum[ci] ?? 0) / cnt;
           if (avg > CFG.triggerScale && avg < CFG.dismissScale) {
-            fact = clusters[ci].factText;
+            fact = clusters[ci]!.factText;
             break;
           }
         }
