@@ -12,8 +12,8 @@ import * as THREE from "three";
 
 const PULSE_PERIOD = 4.0;
 const PULSE_AMP = 0.03;
-const CORAL = "#DCE7F5";
-const CORAL_DIM = "#A8BCD4";
+const CORAL = "#58789F";
+const CORAL_DIM = "#3E5A7C";
 const NEON = "#45D6E8";
 
 export type BrainPhase = "exterior" | "diving" | "interior" | "surfacing";
