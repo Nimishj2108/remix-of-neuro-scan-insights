@@ -115,6 +115,7 @@ function Index() {
       const t = setTimeout(() => setBrainPhase("exterior"), 900);
       return () => clearTimeout(t);
     }
+    return undefined;
   }, [brainPhase]);
 
   useEffect(() => {
