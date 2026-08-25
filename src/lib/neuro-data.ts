@@ -15,6 +15,8 @@ export interface ScanFinding {
   /** 0-100 coords on the axial slice viewer */
   x: number;
   y: number;
+  /** 0-100 depth through the scan volume (for 3D placement) */
+  z: number;
 }
 
 export interface AnalysisResult {
@@ -41,50 +43,50 @@ export const NEURO_FACTS: string[] = [
   "The human brain contains ~86 billion neurons wired by 100 trillion synapses.",
   "A single neuron can fire up to 200 times per second.",
   "Glioblastoma is the most aggressive primary brain tumor, with median survival of ~15 months.",
-  "MRI detects brain tumors by measuring how hydrogen protons respond to magnetic fields.",
+  "CT detects brain tumors by measuring how X-rays are attenuated by tissue of different densities.",
   "The blood-brain barrier blocks most drugs — a major challenge in neuro-oncology.",
   "White matter tracts carry signals at up to 120 m/s along myelinated axons.",
   "The cerebral cortex is only 2-4 mm thick, yet holds most of our neurons.",
   "Neurons consume 20% of the body's oxygen despite being 2% of its mass.",
-  "FLAIR MRI sequences suppress fluid signal to reveal peritumoral edema.",
+  "On non-contrast CT, acute hemorrhage appears hyperdense — bright white against grey brain tissue.",
   "Meningiomas arise from the membranes surrounding the brain, not the brain itself.",
   "Each cubic millimeter of cortex contains roughly one kilometer of axons.",
   "Diffusion tensor imaging maps white-matter pathways that tumors can displace or invade.",
-  "Early MRI detection can double treatment options for low-grade gliomas.",
+  "Early CT detection can double treatment options for low-grade gliomas.",
   "The brain has no pain receptors — tumors grow silently until they press on tissue.",
   "Synaptic pruning removes up to 40% of synapses between childhood and adulthood.",
   "AI segmentation of tumor subregions guides surgical margins within millimeters.",
   "A resting neuron maintains a -70 mV electrical potential across its membrane.",
-  "Contrast-enhanced T1 MRI highlights tumor regions where the blood-brain barrier leaks.",
+  "Contrast-enhanced CT highlights tumor regions where the blood-brain barrier leaks iodinated dye.",
 ];
 
 export const PROCESSING_MESSAGES = [
-  "Loading MRI scan slices...",
+  "Loading CT scan slices...",
   "Preprocessing DICOM series...",
   "Skull-stripping and co-registering...",
   "Segmenting brain tissue...",
-  "Extracting radiomic features...",
+  "Extracting Hounsfield-unit features...",
   "Running tumor detection model...",
   "Building 3D visualization...",
   "Generating analysis report...",
 ];
 
 const FINDING_POOL: Array<
-  Omit<ScanFinding, "id" | "confidence" | "x" | "y" | "size_mm">
+  Omit<ScanFinding, "id" | "confidence" | "x" | "y" | "z" | "size_mm">
 > = [
   {
     type: "Enhancing tumor core",
     severity: "critical",
     region: "Left frontal lobe",
     description:
-      "Contrast-enhancing region with irregular margins, consistent with high-grade glioma.",
+      "Hyperdense contrast-enhancing region with irregular margins on CT, consistent with high-grade glioma.",
   },
   {
     type: "Peritumoral edema",
     severity: "high",
     region: "Right temporal lobe",
     description:
-      "FLAIR hyperintensity surrounding the lesion, indicating vasogenic edema.",
+      "Hypodense halo surrounding the lesion on CT, indicating vasogenic edema.",
   },
   {
     type: "Necrotic core",
@@ -98,7 +100,7 @@ const FINDING_POOL: Array<
     severity: "moderate",
     region: "Right frontal lobe",
     description:
-      "Diffuse T2 hyperintensity without enhancement — recommend follow-up imaging.",
+      "Diffuse hypodensity without enhancement on CT — recommend follow-up imaging.",
   },
   {
     type: "Mass effect",
@@ -112,7 +114,7 @@ const FINDING_POOL: Array<
     severity: "low",
     region: "Corpus callosum",
     description:
-      "Small region of signal change; likely benign, flagged for radiologist review.",
+      "Small region of attenuation change on CT; likely benign, flagged for radiologist review.",
   },
 ];
 
@@ -141,6 +143,7 @@ export function runMockAnalysis(patientId: string): AnalysisResult {
     size_mm: Math.round((4 + rand() * 32) * 10) / 10,
     x: 22 + rand() * 56,
     y: 20 + rand() * 56,
+    z: 18 + rand() * 64,
   }));
 
   const SEVERITY_ORDER: ScanFinding["severity"][] = [
@@ -192,9 +195,9 @@ export const CITATIONS: Citation[] = [
   {
     title: "The Multimodal Brain Tumor Image Segmentation Benchmark (BRATS)",
     description:
-      "The foundational benchmark dataset for brain tumor segmentation from multi-modal MRI, used to train and validate NeuroScan's models.",
+      "The foundational benchmark dataset for brain tumor segmentation from multi-modal scans, used to train and validate NeuroScan's models.",
     details:
-      "Menze et al., IEEE Transactions on Medical Imaging, 2015. BraTS provides expert-annotated glioma MRIs with segmentations for edema, enhancing tumor, and necrotic core.",
+      "Menze et al., IEEE Transactions on Medical Imaging, 2015. BraTS provides expert-annotated glioma scans with segmentations for edema, enhancing tumor, and necrotic core.",
     link: "https://www.med.upenn.edu/sbia/brats2018.html",
   },
   {
@@ -226,7 +229,7 @@ export const CITATIONS: Citation[] = [
     description:
       "NeuroScan was designed and built at HackCanada 2025 as an exploration of accessible medical AI interfaces.",
     details:
-      "A 24-hour hackathon project combining PyTorch inference, FastAPI, and an interactive web viewer for MRI analysis.",
+      "A 24-hour hackathon project combining PyTorch inference, FastAPI, and an interactive web viewer for CT analysis.",
     link: "https://github.com/Nimishj2108/NeuroScan",
   },
 ];

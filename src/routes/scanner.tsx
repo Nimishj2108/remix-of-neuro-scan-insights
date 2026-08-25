@@ -17,7 +17,7 @@ import {
 import NeuralWebCanvas from "@/components/neuro/NeuralWebCanvas";
 import Navigation from "@/components/neuro/Navigation";
 import RetroLoadingBar from "@/components/neuro/RetroLoadingBar";
-import BrainSliceViewer from "@/components/neuro/BrainSliceViewer";
+import BrainFindings3D from "@/components/neuro/BrainFindings3D";
 import {
   PATIENTS,
   PROCESSING_MESSAGES,
@@ -30,17 +30,17 @@ import {
 export const Route = createFileRoute("/scanner")({
   head: () => ({
     meta: [
-      { title: "NeuroScan Scanner — Brain MRI Analysis" },
+      { title: "NeuroScan Scanner — Brain CT Analysis" },
       {
         name: "description",
         content:
-          "Select a patient MRI study or upload a scan, run the NeuroScan detection model, and inspect findings on an interactive brain slice.",
+          "Select a patient CT study or upload a scan, run the NeuroScan detection model, and inspect findings on an interactive 3D brain.",
       },
-      { property: "og:title", content: "NeuroScan Scanner — Brain MRI Analysis" },
+      { property: "og:title", content: "NeuroScan Scanner — Brain CT Analysis" },
       {
         property: "og:description",
         content:
-          "Run deep-learning tumor detection on brain MRI scans and explore findings in 3D.",
+          "Run deep-learning tumor detection on brain CT scans and explore findings in 3D.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -65,6 +65,7 @@ function ScannerPage() {
   const [processingMessage, setProcessingMessage] = useState("");
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
   const [analysisError, setAnalysisError] = useState<string | null>(null);
+  const [selectedFindingId, setSelectedFindingId] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
@@ -128,7 +129,9 @@ function ScannerPage() {
         activeTab === "patients"
           ? selectedPatient!.patient_id
           : `upload-${uploadedFile!.name}`;
-      setAnalysisResult(runMockAnalysis(id));
+      const result = runMockAnalysis(id);
+      setAnalysisResult(result);
+      setSelectedFindingId(result.findings[0]?.id ?? null);
       setIsAnalyzing(false);
       // ease back out of the neural-web dive so the dashboard is legible
       animate(zoomLevel, 3, { duration: 2, ease: [0.6, 0.01, 0.05, 0.95] });
@@ -201,7 +204,7 @@ function ScannerPage() {
                   ["Model", "NeuroScan v1.3"],
                   ["Architecture", "nnU-Net + 3D-ResNet"],
                   ["Training Data", "BraTS 2020/2021"],
-                  ["Input", "DICOM MRI Series"],
+                  ["Input", "DICOM CT Series"],
                 ].map(([k, v]) => (
                   <div key={k} className="flex justify-between">
                     <span className="text-cream/50">{k}</span>
@@ -222,7 +225,7 @@ function ScannerPage() {
                 {[
                   { icon: Gauge, text: "Tumor severity grading (I–IV)" },
                   { icon: ScanSearch, text: "Edema & necrosis segmentation" },
-                  { icon: Activity, text: "Per-slice anomaly heatmaps" },
+                  { icon: Activity, text: "3D anomaly localization" },
                   { icon: Info, text: "Radiologist-ready reports" },
                 ].map(({ icon: Icon, text }) => (
                   <li key={text} className="flex items-start gap-2 text-cream/60">
@@ -242,7 +245,7 @@ function ScannerPage() {
           </motion.div>
         </div>
 
-        {/* ── Center: MRI Scan Analysis ── */}
+        {/* ── Center: CT Scan Analysis ── */}
         <div className="lg:col-span-6 space-y-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -251,7 +254,7 @@ function ScannerPage() {
             className="pixel-border p-6 space-y-6"
           >
             <h3 className="font-pixel text-[10px] text-coral">
-              MRI SCAN ANALYSIS
+              CT SCAN ANALYSIS
             </h3>
 
             {/* Viewer area */}
@@ -265,7 +268,11 @@ function ScannerPage() {
               </div>
             ) : analysisResult ? (
               <div className="space-y-4">
-                <BrainSliceViewer findings={analysisResult.findings} />
+                <BrainFindings3D
+                  findings={analysisResult.findings}
+                  selectedId={selectedFindingId}
+                  onSelect={setSelectedFindingId}
+                />
 
                 <div className="pixel-border-sm p-4 space-y-2">
                   <div className="flex items-center justify-between">
@@ -290,7 +297,13 @@ function ScannerPage() {
                 {/* Findings list */}
                 <div className="space-y-2">
                   {analysisResult.findings.map((f) => (
-                    <div key={f.id} className="pixel-border-sm p-3">
+                    <div
+                      key={f.id}
+                      onClick={() => setSelectedFindingId(f.id)}
+                      className={`pixel-border-sm p-3 cursor-pointer transition-colors ${
+                        selectedFindingId === f.id ? "bg-coral/10" : ""
+                      }`}
+                    >
                       <div className="flex items-center justify-between mb-1">
                         <span
                           className="font-pixel text-[8px]"
@@ -344,7 +357,7 @@ function ScannerPage() {
                   className="mx-auto text-coral/40 mb-3 animate-pulse-slow"
                 />
                 <p className="font-mono text-sm text-cream/50">
-                  Select a patient study or upload an MRI series, then run the
+                  Select a patient study or upload a CT series, then run the
                   analysis.
                 </p>
               </div>
@@ -417,7 +430,7 @@ function ScannerPage() {
                           {uploadedFile.name}
                         </span>
                       ) : (
-                        "Click to upload MRI scan (DICOM, NIfTI, PNG)"
+                        "Click to upload CT scan (DICOM, NIfTI, PNG)"
                       )}
                     </button>
                   </div>
@@ -476,7 +489,7 @@ function ScannerPage() {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-cream/50">Modality</span>
-                  <span className="text-coral font-semibold">MRI · T1-CE</span>
+                  <span className="text-coral font-semibold">CT · Contrast</span>
                 </div>
               </div>
             ) : uploadedFile ? (
@@ -506,9 +519,9 @@ function ScannerPage() {
               </h3>
               <ul className="space-y-2 font-mono text-sm text-cream/60">
                 {[
-                  "Pick a BraTS study or upload an MRI series",
+                  "Pick a BraTS study or upload a CT series",
                   "Run the analysis pipeline",
-                  "Inspect findings on the axial slice",
+                  "Inspect findings on the 3D brain",
                   "Click markers for per-finding detail",
                 ].map((step, i) => (
                   <li key={step} className="flex items-start gap-2">

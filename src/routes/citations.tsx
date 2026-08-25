@@ -12,13 +12,13 @@ export const Route = createFileRoute("/citations")({
       {
         name: "description",
         content:
-          "Datasets, papers, and resources behind NeuroScan's brain MRI analysis pipeline.",
+          "Datasets, papers, and resources behind NeuroScan's brain CT analysis pipeline.",
       },
       { property: "og:title", content: "Citations — NeuroScan" },
       {
         property: "og:description",
         content:
-          "Datasets, papers, and resources behind NeuroScan's brain MRI analysis pipeline.",
+          "Datasets, papers, and resources behind NeuroScan's brain CT analysis pipeline.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
