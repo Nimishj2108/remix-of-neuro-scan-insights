@@ -19,10 +19,10 @@ const CFG = {
   hemisphereSeparationGain: 2.0,
   rotVelX: 0.0008,
   rotVelY: 0.0005,
-  bgColor: "#0a0a0a",
-  pR: 232,
-  pG: 80,
-  pB: 106,
+  bgColor: "#080D16",
+  pR: 69,
+  pG: 214,
+  pB: 232,
   shellPointsPerHemi: 90,
   shellSpreadX: 200,
   shellSpreadY: 190,
@@ -428,8 +428,8 @@ export default function NeuralWebCanvas({
         if (r < 0.2) continue;
         ctx.beginPath();
         ctx.arc(x, y, r, 0, Math.PI * 2);
-        ctx.fillStyle = rgba(255, 170, 130, 0.9);
-        ctx.shadowColor = "rgba(255,140,100,0.8)";
+        ctx.fillStyle = rgba(140, 224, 244, 0.9);
+        ctx.shadowColor = "rgba(69,214,232,0.8)";
         ctx.shadowBlur = CFG.particleSize * 5 * s;
         ctx.fill();
         ctx.shadowBlur = 0;

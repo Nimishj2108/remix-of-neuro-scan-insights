@@ -54,11 +54,11 @@
   --shadow-pixel: 4px 4px 0px #000;
   --shadow-pixel-sm: 2px 2px 0px #000;
   --shadow-coral-glow:
-    0 0 30px rgba(232, 80, 106, 0.55), 0 0 60px rgba(204, 34, 51, 0.25),
-    0 0 90px rgba(232, 80, 106, 0.1);
+    0 0 30px rgba(69, 214, 232, 0.55), 0 0 60px rgba(117, 103, 248, 0.25),
+    0 0 90px rgba(69, 214, 232, 0.1);
   --shadow-coral-glow-lg:
-    0 0 50px rgba(232, 80, 106, 0.65), 0 0 100px rgba(204, 34, 51, 0.3),
-    0 0 140px rgba(232, 80, 106, 0.12);
+    0 0 50px rgba(69, 214, 232, 0.65), 0 0 100px rgba(117, 103, 248, 0.3),
+    0 0 140px rgba(69, 214, 232, 0.12);
 
   --animate-pulse-slow: pulse-slow 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   --animate-float: float 6s ease-in-out infinite;
@@ -85,12 +85,12 @@
 
 :root {
   --radius: 0.25rem;
-  --coral: oklch(0.651 0.192 12.9);
-  --coral-deep: oklch(0.5 0.157 11.6);
-  --neon-red: oklch(0.534 0.196 22.4);
-  --dark-base: oklch(0.145 0 0);
-  --cream: oklch(0.861 0.054 9.5);
-  --charcoal: oklch(0.21 0.015 10);
+  --coral: oklch(0.82 0.121 215); /* neural cyan #45D6E8 */
+  --coral-deep: oklch(0.55 0.19 285); /* cortical violet #7567F8 */
+  --neon-red: oklch(0.63 0.222 19.6); /* hemorrhage red #FF4D5E */
+  --dark-base: oklch(0.175 0.025 264); /* deep cerebral navy #080D16 */
+  --cream: oklch(0.94 0.014 250); /* clinical white #E8EEF7 */
+  --charcoal: oklch(0.225 0.03 262); /* dark blue-gray #0E1624 */
 
   --background: var(--dark-base);
   --foreground: var(--cream);
@@ -103,13 +103,13 @@
   --secondary: var(--charcoal);
   --secondary-foreground: var(--cream);
   --muted: var(--charcoal);
-  --muted-foreground: oklch(0.65 0.03 10);
+  --muted-foreground: oklch(0.65 0.022 255); /* cool gray #8996A8 */
   --accent: var(--coral);
   --accent-foreground: var(--dark-base);
   --destructive: var(--neon-red);
   --destructive-foreground: var(--cream);
-  --border: oklch(0.651 0.192 12.9 / 25%);
-  --input: oklch(0.651 0.192 12.9 / 35%);
+  --border: oklch(0.82 0.121 215 / 25%);
+  --input: oklch(0.82 0.121 215 / 35%);
   --ring: var(--coral);
 }
 
@@ -168,32 +168,32 @@
 
 /* ── Pixel-border panels ─────────────────────────────────── */
 @utility pixel-border {
-  border: 4px solid #e8506a;
+  border: 4px solid #45D6E8;
   box-shadow:
     4px 4px 0px #000,
-    0 0 22px rgba(232, 80, 106, 0.4),
-    0 0 44px rgba(204, 34, 51, 0.15);
+    0 0 22px rgba(69, 214, 232, 0.4),
+    0 0 44px rgba(117, 103, 248, 0.15);
   background: rgba(10, 10, 10, 0.9);
 }
 
 @utility pixel-border-sm {
-  border: 2px solid #e8506a;
+  border: 2px solid #45D6E8;
   box-shadow:
     2px 2px 0px #000,
-    0 0 14px rgba(232, 80, 106, 0.3),
-    0 0 28px rgba(204, 34, 51, 0.1);
+    0 0 14px rgba(69, 214, 232, 0.3),
+    0 0 28px rgba(117, 103, 248, 0.1);
   background: rgba(10, 10, 10, 0.9);
 }
 
 /* ── Chunky retro buttons ────────────────────────────────── */
 @utility btn-retro {
-  border: 4px solid #e8506a;
+  border: 4px solid #45D6E8;
   box-shadow:
     4px 4px 0px #000,
-    0 0 28px rgba(232, 80, 106, 0.5),
-    0 0 56px rgba(204, 34, 51, 0.2);
-  background: #e8506a;
-  color: #0a0a0a;
+    0 0 28px rgba(69, 214, 232, 0.5),
+    0 0 56px rgba(117, 103, 248, 0.2);
+  background: #45D6E8;
+  color: #080D16;
   font-weight: 700;
   transition:
     transform 0.05s,
@@ -203,8 +203,8 @@
     filter: brightness(1.25);
     box-shadow:
       4px 4px 0px #000,
-      0 0 40px rgba(232, 80, 106, 0.65),
-      0 0 70px rgba(204, 34, 51, 0.3);
+      0 0 40px rgba(69, 214, 232, 0.65),
+      0 0 70px rgba(117, 103, 248, 0.3);
   }
   &:active {
     transform: translate(2px, 2px);
@@ -213,13 +213,13 @@
 }
 
 @utility btn-retro-outline {
-  border: 4px solid #e8506a;
+  border: 4px solid #45D6E8;
   box-shadow:
     4px 4px 0px #000,
-    0 0 20px rgba(232, 80, 106, 0.3),
-    0 0 40px rgba(204, 34, 51, 0.1);
+    0 0 20px rgba(69, 214, 232, 0.3),
+    0 0 40px rgba(117, 103, 248, 0.1);
   background: transparent;
-  color: #e8506a;
+  color: #45D6E8;
   font-weight: 700;
   transition:
     transform 0.05s,
@@ -227,11 +227,11 @@
     background 0.15s;
   cursor: pointer;
   &:hover {
-    background: rgba(232, 80, 106, 0.12);
+    background: rgba(69, 214, 232, 0.12);
     box-shadow:
       4px 4px 0px #000,
-      0 0 32px rgba(232, 80, 106, 0.45),
-      0 0 60px rgba(204, 34, 51, 0.2);
+      0 0 32px rgba(69, 214, 232, 0.45),
+      0 0 60px rgba(117, 103, 248, 0.2);
   }
   &:active {
     transform: translate(2px, 2px);
@@ -241,8 +241,8 @@
 
 @utility glow-text-coral {
   text-shadow:
-    0 0 7px rgba(232, 80, 106, 0.9),
-    0 0 18px rgba(204, 34, 51, 0.6),
-    0 0 40px rgba(232, 80, 106, 0.35),
-    0 0 70px rgba(232, 80, 106, 0.15);
+    0 0 7px rgba(69, 214, 232, 0.9),
+    0 0 18px rgba(117, 103, 248, 0.6),
+    0 0 40px rgba(69, 214, 232, 0.35),
+    0 0 70px rgba(69, 214, 232, 0.15);
 }
