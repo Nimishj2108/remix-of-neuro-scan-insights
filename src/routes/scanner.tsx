@@ -130,6 +130,8 @@ function ScannerPage() {
           : `upload-${uploadedFile!.name}`;
       setAnalysisResult(runMockAnalysis(id));
       setIsAnalyzing(false);
+      // ease back out of the neural-web dive so the dashboard is legible
+      animate(zoomLevel, 3, { duration: 2, ease: [0.6, 0.01, 0.05, 0.95] });
     }, ANALYZE_DURATION);
     timersRef.current.push(finish);
   }, [
