@@ -61,11 +61,11 @@ export const NEURO_FACTS: string[] = [
 ];
 
 export const PROCESSING_MESSAGES = [
-  "Loading MRI scan slices...",
+  "Loading CT scan slices...",
   "Preprocessing DICOM series...",
   "Skull-stripping and co-registering...",
   "Segmenting brain tissue...",
-  "Extracting radiomic features...",
+  "Extracting Hounsfield-unit features...",
   "Running tumor detection model...",
   "Building 3D visualization...",
   "Generating analysis report...",
@@ -79,14 +79,14 @@ const FINDING_POOL: Array<
     severity: "critical",
     region: "Left frontal lobe",
     description:
-      "Contrast-enhancing region with irregular margins, consistent with high-grade glioma.",
+      "Hyperdense contrast-enhancing region with irregular margins on CT, consistent with high-grade glioma.",
   },
   {
     type: "Peritumoral edema",
     severity: "high",
     region: "Right temporal lobe",
     description:
-      "FLAIR hyperintensity surrounding the lesion, indicating vasogenic edema.",
+      "Hypodense halo surrounding the lesion on CT, indicating vasogenic edema.",
   },
   {
     type: "Necrotic core",
@@ -100,7 +100,7 @@ const FINDING_POOL: Array<
     severity: "moderate",
     region: "Right frontal lobe",
     description:
-      "Diffuse T2 hyperintensity without enhancement — recommend follow-up imaging.",
+      "Diffuse hypodensity without enhancement on CT — recommend follow-up imaging.",
   },
   {
     type: "Mass effect",
@@ -114,7 +114,7 @@ const FINDING_POOL: Array<
     severity: "low",
     region: "Corpus callosum",
     description:
-      "Small region of signal change; likely benign, flagged for radiologist review.",
+      "Small region of attenuation change on CT; likely benign, flagged for radiologist review.",
   },
 ];
 
