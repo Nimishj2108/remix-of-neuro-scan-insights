@@ -225,7 +225,7 @@ function ScannerPage() {
                 {[
                   { icon: Gauge, text: "Tumor severity grading (I–IV)" },
                   { icon: ScanSearch, text: "Edema & necrosis segmentation" },
-                  { icon: Activity, text: "Per-slice anomaly heatmaps" },
+                  { icon: Activity, text: "3D anomaly localization" },
                   { icon: Info, text: "Radiologist-ready reports" },
                 ].map(({ icon: Icon, text }) => (
                   <li key={text} className="flex items-start gap-2 text-cream/60">
@@ -521,7 +521,7 @@ function ScannerPage() {
                 {[
                   "Pick a BraTS study or upload a CT series",
                   "Run the analysis pipeline",
-                  "Inspect findings on the axial slice",
+                  "Inspect findings on the 3D brain",
                   "Click markers for per-finding detail",
                 ].map((step, i) => (
                   <li key={step} className="flex items-start gap-2">
