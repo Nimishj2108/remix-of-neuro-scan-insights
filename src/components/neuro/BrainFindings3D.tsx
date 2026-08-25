@@ -13,8 +13,8 @@ import { severityColor, type ScanFinding } from "@/lib/neuro-data";
  * Drag to orbit, scroll to zoom, click a marker to focus a finding.
  */
 
-const CORAL = "#DCE7F5";
-const NEON = "#45D6E8";
+const TISSUE = "#DCE7F5"; // whitish-bluish brain tissue
+const RIM = "#7FA8D9"; // soft clinical blue rim light
 
 /** Map a finding's 0-100 volume coords to a point on/inside the brain's
  *  bounding ellipsoid (geometry-local units). */
@@ -142,16 +142,16 @@ function BrainModel({
       <group scale={scale}>
         <mesh geometry={geometry} position={center.clone().negate()}>
           <meshPhysicalMaterial
-            color={CORAL}
+            color={TISSUE}
             transparent
-            opacity={0.32}
+            opacity={0.45}
             side={THREE.DoubleSide}
             depthWrite={false}
             roughness={0.55}
-            metalness={0.15}
+            metalness={0.1}
             clearcoat={0.4}
-            emissive={NEON}
-            emissiveIntensity={0.12}
+            emissive={RIM}
+            emissiveIntensity={0.1}
           />
         </mesh>
       </group>
@@ -214,7 +214,7 @@ export default function BrainFindings3D({
       >
         <ambientLight intensity={0.45} />
         <pointLight position={[4, 4, 4]} intensity={20} color="#DCEBFF" />
-        <pointLight position={[-4, -2, -2]} intensity={12} color={NEON} />
+        <pointLight position={[-4, -2, -2]} intensity={12} color={RIM} />
         <Suspense fallback={null}>
           <BrainModel
             findings={findings}
