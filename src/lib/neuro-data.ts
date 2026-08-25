@@ -43,21 +43,21 @@ export const NEURO_FACTS: string[] = [
   "The human brain contains ~86 billion neurons wired by 100 trillion synapses.",
   "A single neuron can fire up to 200 times per second.",
   "Glioblastoma is the most aggressive primary brain tumor, with median survival of ~15 months.",
-  "MRI detects brain tumors by measuring how hydrogen protons respond to magnetic fields.",
+  "CT detects brain tumors by measuring how X-rays are attenuated by tissue of different densities.",
   "The blood-brain barrier blocks most drugs — a major challenge in neuro-oncology.",
   "White matter tracts carry signals at up to 120 m/s along myelinated axons.",
   "The cerebral cortex is only 2-4 mm thick, yet holds most of our neurons.",
   "Neurons consume 20% of the body's oxygen despite being 2% of its mass.",
-  "FLAIR MRI sequences suppress fluid signal to reveal peritumoral edema.",
+  "On non-contrast CT, acute hemorrhage appears hyperdense — bright white against grey brain tissue.",
   "Meningiomas arise from the membranes surrounding the brain, not the brain itself.",
   "Each cubic millimeter of cortex contains roughly one kilometer of axons.",
   "Diffusion tensor imaging maps white-matter pathways that tumors can displace or invade.",
-  "Early MRI detection can double treatment options for low-grade gliomas.",
+  "Early CT detection can double treatment options for low-grade gliomas.",
   "The brain has no pain receptors — tumors grow silently until they press on tissue.",
   "Synaptic pruning removes up to 40% of synapses between childhood and adulthood.",
   "AI segmentation of tumor subregions guides surgical margins within millimeters.",
   "A resting neuron maintains a -70 mV electrical potential across its membrane.",
-  "Contrast-enhanced T1 MRI highlights tumor regions where the blood-brain barrier leaks.",
+  "Contrast-enhanced CT highlights tumor regions where the blood-brain barrier leaks iodinated dye.",
 ];
 
 export const PROCESSING_MESSAGES = [
@@ -72,7 +72,7 @@ export const PROCESSING_MESSAGES = [
 ];
 
 const FINDING_POOL: Array<
-  Omit<ScanFinding, "id" | "confidence" | "x" | "y" | "size_mm">
+  Omit<ScanFinding, "id" | "confidence" | "x" | "y" | "z" | "size_mm">
 > = [
   {
     type: "Enhancing tumor core",
