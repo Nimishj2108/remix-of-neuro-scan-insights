@@ -27,7 +27,7 @@ interface BrainSceneProps {
 
 function createHemisphereGeometry(side: "left" | "right"): THREE.BufferGeometry {
   const geo = new THREE.SphereGeometry(1, 48, 36);
-  const pos = geo.attributes.position as THREE.BufferAttribute;
+  const pos = geo.attributes["position"] as THREE.BufferAttribute;
   const v = new THREE.Vector3();
 
   for (let i = 0; i < pos.count; i++) {
