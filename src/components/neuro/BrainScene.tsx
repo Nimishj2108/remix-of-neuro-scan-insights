@@ -280,18 +280,7 @@ function BrainGroup({
     const t = clock.elapsedTime;
     groupRef.current.rotation.y = t * 0.22;
     groupRef.current.rotation.x = Math.sin((t / 10) * Math.PI * 2) * 0.06;
-    const fade =
-      phase === "interior" ? 0 : phase === "diving" ? 0.4 : 1;
-    groupRef.current.traverse((obj) => {
-      const mesh = obj as THREE.Mesh;
-      const mat = (mesh as unknown as { material?: THREE.Material }).material as
-        | (THREE.Material & { opacity?: number })
-        | undefined;
-      if (mat && "opacity" in mat && typeof mat.opacity === "number") {
-        // handled by visibility on the group instead
-      }
-    });
-    groupRef.current.visible = fade > 0;
+    groupRef.current.visible = phase !== "interior";
   });
 
   const scale = decorative ? decorativeScale : 2.0;
