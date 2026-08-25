@@ -283,7 +283,7 @@ function BrainGroup({
     groupRef.current.visible = phase !== "interior";
   });
 
-  const scale = decorative ? decorativeScale : 1.1;
+  const scale = decorative ? decorativeScale : 0.72;
 
   return (
     <group ref={groupRef} scale={scale} position={[0, -0.1, 0]}>
