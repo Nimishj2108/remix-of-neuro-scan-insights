@@ -532,7 +532,6 @@ function ScannerPage() {
                 ))}
               </ul>
             </div>
-            </div>
 
             <ClinicalDisclaimer />
           </motion.div>
