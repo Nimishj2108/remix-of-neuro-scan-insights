@@ -18,6 +18,7 @@ import NeuralWebCanvas from "@/components/neuro/NeuralWebCanvas";
 import Navigation from "@/components/neuro/Navigation";
 import RetroLoadingBar from "@/components/neuro/RetroLoadingBar";
 import BrainFindings3D from "@/components/neuro/BrainFindings3D";
+import ClinicalDisclaimer from "@/components/neuro/ClinicalDisclaimer";
 import {
   PATIENTS,
   PROCESSING_MESSAGES,
