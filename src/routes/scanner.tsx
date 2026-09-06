@@ -595,7 +595,45 @@ function ScannerPage() {
             <h3 className="font-pixel text-[10px] text-coral">
               SELECTED PATIENT
             </h3>
-            {selectedPatient ? (
+            {selectedCTCase ? (
+              <div className="space-y-2 font-mono text-sm">
+                {[
+                  ["Case ID", selectedCTCase.case_id],
+                  ["Modality", selectedCTCase.modality],
+                  ["Study", selectedCTCase.study_description ?? "—"],
+                  [
+                    "Slices",
+                    selectedCTCase.num_slices != null
+                      ? String(selectedCTCase.num_slices)
+                      : "—",
+                  ],
+                  [
+                    "Dimensions",
+                    selectedCTCase.dimensions
+                      ? selectedCTCase.dimensions.join(" × ")
+                      : "—",
+                  ],
+                  [
+                    "Spacing",
+                    selectedCTCase.spacing
+                      ? selectedCTCase.spacing.map((s) => s.toFixed(2)).join(" × ")
+                      : "—",
+                  ],
+                  ["Source", selectedCTCase.source ?? "CQ500"],
+                  [
+                    "Volume",
+                    selectedCTCase.available_volume ? "Prepared" : "Not prepared",
+                  ],
+                ].map(([k, v]) => (
+                  <div key={k} className="flex justify-between gap-2">
+                    <span className="text-cream/50 shrink-0">{k}</span>
+                    <span className="text-coral font-semibold text-xs text-right truncate">
+                      {v}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            ) : selectedPatient ? (
               <div className="space-y-2 font-mono text-sm">
                 <div className="flex justify-between">
                   <span className="text-cream/50">Patient ID</span>
