@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState, lazy, Suspense } from "react";
 import { createFileRoute, ClientOnly } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import {
   Brain,
@@ -19,6 +20,7 @@ import Navigation from "@/components/neuro/Navigation";
 import RetroLoadingBar from "@/components/neuro/RetroLoadingBar";
 import BrainFindings3D from "@/components/neuro/BrainFindings3D";
 import ClinicalDisclaimer from "@/components/neuro/ClinicalDisclaimer";
+import { fetchCTCases, type CTCaseMeta } from "@/lib/clinical/ct-cases";
 import {
   PATIENTS,
   PROCESSING_MESSAGES,
