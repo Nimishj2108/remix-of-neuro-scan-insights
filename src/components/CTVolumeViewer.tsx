@@ -24,7 +24,7 @@ type ViewMode = '3D' | 'AXIAL' | 'CORONAL' | 'SAGITTAL';
 
 const CTVolumeViewer: React.FC<CTVolumeViewerProps> = ({ 
   caseId, 
-  apiUrl = 'http://127.0.0.1:8000',
+  apiUrl = (import.meta.env["VITE_CT_API_URL"] as string | undefined) ?? "https://complement-sin-magnet-replace.trycloudflare.com",
   className = '' 
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);

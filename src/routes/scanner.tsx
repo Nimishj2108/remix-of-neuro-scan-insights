@@ -32,7 +32,7 @@ const CTVolumeViewer = lazy(() => import("@/components/CTVolumeViewer"));
 const CT_CASE_ID = "ct_case_001";
 const CT_API_URL =
   (import.meta.env["VITE_CT_API_URL"] as string | undefined) ??
-  "http://127.0.0.1:8000";
+  "https://complement-sin-magnet-replace.trycloudflare.com";
 
 export const Route = createFileRoute("/scanner")({
   head: () => ({
