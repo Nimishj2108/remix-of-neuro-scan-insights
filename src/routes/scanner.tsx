@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState, lazy, Suspense } from "react";
 import { createFileRoute, ClientOnly } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import {
   Brain,
@@ -19,6 +20,7 @@ import Navigation from "@/components/neuro/Navigation";
 import RetroLoadingBar from "@/components/neuro/RetroLoadingBar";
 import BrainFindings3D from "@/components/neuro/BrainFindings3D";
 import ClinicalDisclaimer from "@/components/neuro/ClinicalDisclaimer";
+import { fetchCTCases, type CTCaseMeta } from "@/lib/clinical/ct-cases";
 import {
   PATIENTS,
   PROCESSING_MESSAGES,
@@ -64,7 +66,16 @@ function ScannerPage() {
   const dashboardOpacity = useTransform(zoomLevel, [1, 10, 50], [1, 0.5, 0.2]);
 
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
+  const [selectedCTCase, setSelectedCTCase] = useState<CTCaseMeta | null>(null);
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+
+  const ctCasesQuery = useQuery({
+    queryKey: ["ct-cases", CT_API_URL],
+    queryFn: () => fetchCTCases(CT_API_URL),
+    retry: 1,
+    staleTime: 60_000,
+  });
+  const ctCases = ctCasesQuery.data ?? [];
   const [activeTab, setActiveTab] = useState<ActiveTab>("patients");
 
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -97,7 +108,7 @@ function ScannerPage() {
   const handleAnalyze = useCallback(() => {
     closeFact();
 
-    if (activeTab === "patients" && !selectedPatient) {
+    if (activeTab === "patients" && !selectedPatient && !selectedCTCase) {
       setAnalysisError("Please select a patient first.");
       return;
     }
@@ -135,7 +146,7 @@ function ScannerPage() {
       setProgress(100);
       const id =
         activeTab === "patients"
-          ? selectedPatient!.patient_id
+          ? (selectedCTCase?.case_id ?? selectedPatient!.patient_id)
           : `upload-${uploadedFile!.name}`;
       const result = runMockAnalysis(id);
       setAnalysisResult(result);
@@ -148,6 +159,7 @@ function ScannerPage() {
   }, [
     activeTab,
     selectedPatient,
+    selectedCTCase,
     uploadedFile,
     zoomLevel,
     closeFact,
@@ -158,6 +170,7 @@ function ScannerPage() {
     clearTracked();
     closeFact();
     setSelectedPatient(null);
+    setSelectedCTCase(null);
     setUploadedFile(null);
     setAnalysisResult(null);
     setAnalysisError(null);
@@ -167,6 +180,15 @@ function ScannerPage() {
 
   const handleSelectPatient = (p: Patient) => {
     setSelectedPatient(p);
+    setSelectedCTCase(null);
+    setAnalysisResult(null);
+    setAnalysisError(null);
+  };
+
+  const handleSelectCTCase = (c: CTCaseMeta) => {
+    if (!c.available_volume) return;
+    setSelectedCTCase(c);
+    setSelectedPatient(null);
     setAnalysisResult(null);
     setAnalysisError(null);
   };
@@ -311,7 +333,10 @@ function ScannerPage() {
                           </div>
                         }
                       >
-                        <CTVolumeViewer caseId={CT_CASE_ID} apiUrl={CT_API_URL} />
+                        <CTVolumeViewer
+                          caseId={selectedCTCase?.case_id ?? CT_CASE_ID}
+                          apiUrl={CT_API_URL}
+                        />
                       </Suspense>
                     </ClientOnly>
                   </div>
@@ -440,9 +465,63 @@ function ScannerPage() {
                   <div className="pixel-border-sm max-h-56 overflow-y-auto">
                     <div className="flex items-center justify-between px-3 py-2 border-b border-coral/20">
                       <span className="font-pixel text-[8px] text-coral/70">
-                        BRATS STUDIES
+                        CQ500 CT CASES
                       </span>
-                      <RefreshCw size={12} className="text-coral/40" />
+                      <button
+                        onClick={() => ctCasesQuery.refetch()}
+                        aria-label="Refresh CT case list"
+                      >
+                        <RefreshCw
+                          size={12}
+                          className={`text-coral/40 ${ctCasesQuery.isFetching ? "animate-spin" : ""}`}
+                        />
+                      </button>
+                    </div>
+                    {ctCasesQuery.isLoading ? (
+                      <p className="px-3 py-2.5 font-mono text-xs text-cream/40">
+                        Loading CT cases…
+                      </p>
+                    ) : ctCasesQuery.isError ? (
+                      <p className="px-3 py-2.5 font-mono text-xs text-cream/40">
+                        CT case list unavailable — backend not reachable.
+                      </p>
+                    ) : (
+                      ctCases.map((c) => (
+                        <button
+                          key={c.case_id}
+                          onClick={() => handleSelectCTCase(c)}
+                          disabled={!c.available_volume}
+                          title={
+                            c.available_volume
+                              ? (c.study_description ?? c.case_id)
+                              : "Volume not prepared yet"
+                          }
+                          className={`w-full text-left px-3 py-2.5 font-mono text-sm flex justify-between items-center transition-colors ${
+                            !c.available_volume
+                              ? "text-cream/25 cursor-not-allowed"
+                              : selectedCTCase?.case_id === c.case_id
+                                ? "bg-coral-deep/20 text-cream"
+                                : "text-cream/60 hover:bg-coral/5"
+                          }`}
+                        >
+                          <span>
+                            {c.case_id}
+                            <span className="ml-2 text-[10px] uppercase text-coral-deep">
+                              {c.modality}
+                            </span>
+                          </span>
+                          <span className="text-xs text-cream/40">
+                            {c.available_volume
+                              ? `${c.num_slices ?? "?"} slices · ready`
+                              : "not prepared"}
+                          </span>
+                        </button>
+                      ))
+                    )}
+                    <div className="flex items-center justify-between px-3 py-2 border-y border-coral/20">
+                      <span className="font-pixel text-[8px] text-coral/70">
+                        BRATS DEMO STUDIES
+                      </span>
                     </div>
                     {PATIENTS.map((p) => (
                       <button
@@ -516,7 +595,45 @@ function ScannerPage() {
             <h3 className="font-pixel text-[10px] text-coral">
               SELECTED PATIENT
             </h3>
-            {selectedPatient ? (
+            {selectedCTCase ? (
+              <div className="space-y-2 font-mono text-sm">
+                {[
+                  ["Case ID", selectedCTCase.case_id],
+                  ["Modality", selectedCTCase.modality],
+                  ["Study", selectedCTCase.study_description ?? "—"],
+                  [
+                    "Slices",
+                    selectedCTCase.num_slices != null
+                      ? String(selectedCTCase.num_slices)
+                      : "—",
+                  ],
+                  [
+                    "Dimensions",
+                    selectedCTCase.dimensions
+                      ? selectedCTCase.dimensions.join(" × ")
+                      : "—",
+                  ],
+                  [
+                    "Spacing",
+                    selectedCTCase.spacing
+                      ? selectedCTCase.spacing.map((s) => s.toFixed(2)).join(" × ")
+                      : "—",
+                  ],
+                  ["Source", selectedCTCase.source ?? "CQ500"],
+                  [
+                    "Volume",
+                    selectedCTCase.available_volume ? "Prepared" : "Not prepared",
+                  ],
+                ].map(([k, v]) => (
+                  <div key={k} className="flex justify-between gap-2">
+                    <span className="text-cream/50 shrink-0">{k}</span>
+                    <span className="text-coral font-semibold text-xs text-right truncate">
+                      {v}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            ) : selectedPatient ? (
               <div className="space-y-2 font-mono text-sm">
                 <div className="flex justify-between">
                   <span className="text-cream/50">Patient ID</span>
