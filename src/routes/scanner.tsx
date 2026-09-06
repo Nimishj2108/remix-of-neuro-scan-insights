@@ -159,6 +159,7 @@ function ScannerPage() {
   }, [
     activeTab,
     selectedPatient,
+    selectedCTCase,
     uploadedFile,
     zoomLevel,
     closeFact,
@@ -332,7 +333,10 @@ function ScannerPage() {
                           </div>
                         }
                       >
-                        <CTVolumeViewer caseId={CT_CASE_ID} apiUrl={CT_API_URL} />
+                        <CTVolumeViewer
+                          caseId={selectedCTCase?.case_id ?? CT_CASE_ID}
+                          apiUrl={CT_API_URL}
+                        />
                       </Suspense>
                     </ClientOnly>
                   </div>
