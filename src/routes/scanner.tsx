@@ -73,6 +73,7 @@ function ScannerPage() {
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
   const [analysisError, setAnalysisError] = useState<string | null>(null);
   const [selectedFindingId, setSelectedFindingId] = useState<string | null>(null);
+  const [viewerMode, setViewerMode] = useState<"volume" | "findings">("volume");
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
@@ -275,11 +276,52 @@ function ScannerPage() {
               </div>
             ) : analysisResult ? (
               <div className="space-y-4">
-                <BrainFindings3D
-                  findings={analysisResult.findings}
-                  selectedId={selectedFindingId}
-                  onSelect={setSelectedFindingId}
-                />
+                <div className="flex gap-2">
+                  {(
+                    [
+                      { id: "volume", label: "CT Volume" },
+                      { id: "findings", label: "Findings Map" },
+                    ] as const
+                  ).map(({ id, label }) => (
+                    <button
+                      key={id}
+                      onClick={() => setViewerMode(id)}
+                      className={`flex-1 py-2 font-pixel text-[9px] transition-colors ${
+                        viewerMode === id ? "btn-retro" : "btn-retro-outline"
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+
+                {viewerMode === "volume" ? (
+                  <div className="pixel-border-sm h-[420px] overflow-hidden">
+                    <ClientOnly
+                      fallback={
+                        <div className="h-full w-full flex items-center justify-center font-mono text-xs text-cream/40">
+                          Preparing CT volume viewer…
+                        </div>
+                      }
+                    >
+                      <Suspense
+                        fallback={
+                          <div className="h-full w-full flex items-center justify-center font-mono text-xs text-cream/40">
+                            Loading CT volume viewer…
+                          </div>
+                        }
+                      >
+                        <CTVolumeViewer caseId={CT_CASE_ID} apiUrl={CT_API_URL} />
+                      </Suspense>
+                    </ClientOnly>
+                  </div>
+                ) : (
+                  <BrainFindings3D
+                    findings={analysisResult.findings}
+                    selectedId={selectedFindingId}
+                    onSelect={setSelectedFindingId}
+                  />
+                )}
 
                 <div className="pixel-border-sm p-4 space-y-2">
                   <div className="flex items-center justify-between">
