@@ -500,13 +500,13 @@ function ScannerPage() {
                             !c.available_volume
                               ? "text-cream/25 cursor-not-allowed"
                               : selectedCTCase?.case_id === c.case_id
-                                ? "bg-cyan/15 text-cyan"
-                                : "text-cream/60 hover:bg-cyan/5"
+                                ? "bg-coral-deep/20 text-cream"
+                                : "text-cream/60 hover:bg-coral/5"
                           }`}
                         >
                           <span>
                             {c.case_id}
-                            <span className="ml-2 text-[10px] uppercase text-cyan/50">
+                            <span className="ml-2 text-[10px] uppercase text-coral-deep">
                               {c.modality}
                             </span>
                           </span>
