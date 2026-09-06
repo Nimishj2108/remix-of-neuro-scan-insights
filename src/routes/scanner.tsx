@@ -465,9 +465,63 @@ function ScannerPage() {
                   <div className="pixel-border-sm max-h-56 overflow-y-auto">
                     <div className="flex items-center justify-between px-3 py-2 border-b border-coral/20">
                       <span className="font-pixel text-[8px] text-coral/70">
-                        BRATS STUDIES
+                        CQ500 CT CASES
                       </span>
-                      <RefreshCw size={12} className="text-coral/40" />
+                      <button
+                        onClick={() => ctCasesQuery.refetch()}
+                        aria-label="Refresh CT case list"
+                      >
+                        <RefreshCw
+                          size={12}
+                          className={`text-coral/40 ${ctCasesQuery.isFetching ? "animate-spin" : ""}`}
+                        />
+                      </button>
+                    </div>
+                    {ctCasesQuery.isLoading ? (
+                      <p className="px-3 py-2.5 font-mono text-xs text-cream/40">
+                        Loading CT cases…
+                      </p>
+                    ) : ctCasesQuery.isError ? (
+                      <p className="px-3 py-2.5 font-mono text-xs text-cream/40">
+                        CT case list unavailable — backend not reachable.
+                      </p>
+                    ) : (
+                      ctCases.map((c) => (
+                        <button
+                          key={c.case_id}
+                          onClick={() => handleSelectCTCase(c)}
+                          disabled={!c.available_volume}
+                          title={
+                            c.available_volume
+                              ? (c.study_description ?? c.case_id)
+                              : "Volume not prepared yet"
+                          }
+                          className={`w-full text-left px-3 py-2.5 font-mono text-sm flex justify-between items-center transition-colors ${
+                            !c.available_volume
+                              ? "text-cream/25 cursor-not-allowed"
+                              : selectedCTCase?.case_id === c.case_id
+                                ? "bg-cyan/15 text-cyan"
+                                : "text-cream/60 hover:bg-cyan/5"
+                          }`}
+                        >
+                          <span>
+                            {c.case_id}
+                            <span className="ml-2 text-[10px] uppercase text-cyan/50">
+                              {c.modality}
+                            </span>
+                          </span>
+                          <span className="text-xs text-cream/40">
+                            {c.available_volume
+                              ? `${c.num_slices ?? "?"} slices · ready`
+                              : "not prepared"}
+                          </span>
+                        </button>
+                      ))
+                    )}
+                    <div className="flex items-center justify-between px-3 py-2 border-y border-coral/20">
+                      <span className="font-pixel text-[8px] text-coral/70">
+                        BRATS DEMO STUDIES
+                      </span>
                     </div>
                     {PATIENTS.map((p) => (
                       <button
