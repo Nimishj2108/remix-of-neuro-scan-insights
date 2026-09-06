@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { useCallback, useEffect, useRef, useState, lazy, Suspense } from "react";
+import { createFileRoute, ClientOnly } from "@tanstack/react-router";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import {
   Brain,
@@ -27,6 +27,12 @@ import {
   type AnalysisResult,
   type Patient,
 } from "@/lib/neuro-data";
+
+const CTVolumeViewer = lazy(() => import("@/components/CTVolumeViewer"));
+const CT_CASE_ID = "ct_case_001";
+const CT_API_URL =
+  (import.meta.env["VITE_CT_API_URL"] as string | undefined) ??
+  "http://127.0.0.1:8000";
 
 export const Route = createFileRoute("/scanner")({
   head: () => ({
