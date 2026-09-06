@@ -108,7 +108,7 @@ function ScannerPage() {
   const handleAnalyze = useCallback(() => {
     closeFact();
 
-    if (activeTab === "patients" && !selectedPatient) {
+    if (activeTab === "patients" && !selectedPatient && !selectedCTCase) {
       setAnalysisError("Please select a patient first.");
       return;
     }
@@ -146,7 +146,7 @@ function ScannerPage() {
       setProgress(100);
       const id =
         activeTab === "patients"
-          ? selectedPatient!.patient_id
+          ? (selectedCTCase?.case_id ?? selectedPatient!.patient_id)
           : `upload-${uploadedFile!.name}`;
       const result = runMockAnalysis(id);
       setAnalysisResult(result);
@@ -169,6 +169,7 @@ function ScannerPage() {
     clearTracked();
     closeFact();
     setSelectedPatient(null);
+    setSelectedCTCase(null);
     setUploadedFile(null);
     setAnalysisResult(null);
     setAnalysisError(null);
