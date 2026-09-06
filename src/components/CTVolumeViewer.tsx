@@ -12,7 +12,7 @@ import vtkImageMapper from '@kitware/vtk.js/Rendering/Core/ImageMapper';
 import vtkImageSlice from '@kitware/vtk.js/Rendering/Core/ImageSlice';
 import vtkInteractorStyleImage from '@kitware/vtk.js/Interaction/Style/InteractorStyleImage';
 import vtkInteractorStyleTrackballCamera from '@kitware/vtk.js/Interaction/Style/InteractorStyleTrackballCamera';
-import { readImageArrayBuffer } from 'itk-wasm';
+import { readImage } from '@itk-wasm/image-io';
 
 interface CTVolumeViewerProps {
   caseId: string;
@@ -81,10 +81,8 @@ const CTVolumeViewer: React.FC<CTVolumeViewerProps> = ({
         const arrayBuffer = await response.arrayBuffer();
         setLoadingState('RECONSTRUCTING VOLUME');
 
-        const { image: itkImage } = await readImageArrayBuffer(
-          null,
-          arrayBuffer,
-          'volume.nii.gz'
+        const { image: itkImage } = await readImage(
+          new File([arrayBuffer], 'volume.nii.gz')
         );
 
         const vtkImage = vtkITKHelper.convertItkToVtkImage(itkImage);
@@ -183,9 +181,9 @@ const CTVolumeViewer: React.FC<CTVolumeViewerProps> = ({
       const extent = vtkImage.getExtent();
       const dims = [extent[1] - extent[0], extent[3] - extent[2], extent[5] - extent[4]];
       
-      let maxIdx = dims[2];
-      if (mode === 'CORONAL') maxIdx = dims[1];
-      if (mode === 'SAGITTAL') maxIdx = dims[0];
+      let maxIdx = dims[2] ?? 0;
+      if (mode === 'CORONAL') maxIdx = dims[1] ?? 0;
+      if (mode === 'SAGITTAL') maxIdx = dims[0] ?? 0;
       
       setMaxSlice(maxIdx);
       
