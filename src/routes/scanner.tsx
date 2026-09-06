@@ -66,7 +66,16 @@ function ScannerPage() {
   const dashboardOpacity = useTransform(zoomLevel, [1, 10, 50], [1, 0.5, 0.2]);
 
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
+  const [selectedCTCase, setSelectedCTCase] = useState<CTCaseMeta | null>(null);
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+
+  const ctCasesQuery = useQuery({
+    queryKey: ["ct-cases", CT_API_URL],
+    queryFn: () => fetchCTCases(CT_API_URL),
+    retry: 1,
+    staleTime: 60_000,
+  });
+  const ctCases = ctCasesQuery.data ?? [];
   const [activeTab, setActiveTab] = useState<ActiveTab>("patients");
 
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -169,6 +178,15 @@ function ScannerPage() {
 
   const handleSelectPatient = (p: Patient) => {
     setSelectedPatient(p);
+    setSelectedCTCase(null);
+    setAnalysisResult(null);
+    setAnalysisError(null);
+  };
+
+  const handleSelectCTCase = (c: CTCaseMeta) => {
+    if (!c.available_volume) return;
+    setSelectedCTCase(c);
+    setSelectedPatient(null);
     setAnalysisResult(null);
     setAnalysisError(null);
   };
